@@ -1,7 +1,17 @@
 apply plugin: 'java'
+apply plugin: 'application'
 
 repositories {
     jcenter()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+mainClassName = 'org.rainyville.modulusconverter.ModulusConverter'
+
+run {
+    args '--path', 'C:\\Users\\Account\\IdeaProjects\\FlansMod', "--package", "ww2"
 }
 
 dependencies {
@@ -9,4 +19,17 @@ dependencies {
     compile group: 'org.fusesource.jansi', name: 'jansi', version: '2.0.1'
 
     testCompile 'junit:junit:4.12'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Manifest-Version': '1.0',
+                'Main-Class': "$mainClassName"
+        )
+    }
+
+    from {
+        configurations.compile.findAll { !it.name.endsWith('pom') }.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
