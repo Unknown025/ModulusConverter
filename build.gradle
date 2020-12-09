@@ -11,12 +11,13 @@ targetCompatibility = 1.8
 mainClassName = 'org.rainyville.modulusconverter.ModulusConverter'
 
 run {
-    args '--path', 'C:\\Users\\Account\\IdeaProjects\\FlansMod', "--package", "ww2"
+    args '--path', 'C:\\Users\\Account\\IdeaProjects\\FlansMod', "--package", "ww2", "-pack", "WW2 Pack"
 }
 
 dependencies {
     compile 'net.sf.jopt-simple:jopt-simple:6.0-alpha-3'
     compile group: 'org.fusesource.jansi', name: 'jansi', version: '2.0.1'
+    compile 'com.google.code.gson:gson:2.8.6'
 
     testCompile 'junit:junit:4.12'
 }
