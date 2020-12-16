@@ -5,11 +5,11 @@ import java.util.Random;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
-public class InfoType {
+public class InfoTypeFlans {
     /**
      * infoTypes
      */
-    public static HashMap<Integer, InfoType> infoTypes = new HashMap<>();
+    public static HashMap<Integer, InfoTypeFlans> infoTypes = new HashMap<>();
 
     public final String contentPack;
     public int colour = 0xffffff;
@@ -46,7 +46,7 @@ public class InfoType {
      */
     public static int totalDungeonChance = 0;
 
-    public InfoType(TypeFile file) {
+    public InfoTypeFlans(TypeFile file) {
         contentPack = file.contentPack;
     }
 
@@ -157,7 +157,7 @@ public class InfoType {
      * --------------------------------------------------------------------------------------------------------
      */
     protected boolean KeyMatches(String[] split, String key) {
-        return split != null && split.length > 1 && key != null && split[0].toLowerCase().equals(key.toLowerCase());
+        return split != null && split.length > 1 && split[0].equalsIgnoreCase(key);
     }
 
     protected int Read(String[] split, String key, int currentValue) {
@@ -166,10 +166,10 @@ public class InfoType {
                 try {
                     currentValue = Integer.parseInt(split[1]);
                 } catch (Exception e) {
-                    InfoType.LogError(shortName, "Incorrect format for " + key + ". Passed in value is not an integer");
+                    InfoTypeFlans.LogError(shortName, "Incorrect format for " + key + ". Passed in value is not an integer");
                 }
             } else {
-                InfoType.LogError(shortName, "Incorrect format for " + key + ". Should be \"" + key + " <integer value>\"");
+                InfoTypeFlans.LogError(shortName, "Incorrect format for " + key + ". Should be \"" + key + " <integer value>\"");
             }
         }
 
@@ -182,10 +182,10 @@ public class InfoType {
                 try {
                     currentValue = Float.parseFloat(split[1]);
                 } catch (Exception e) {
-                    InfoType.LogError(shortName, "Incorrect format for " + key + ". Passed in value is not an float");
+                    InfoTypeFlans.LogError(shortName, "Incorrect format for " + key + ". Passed in value is not an float");
                 }
             } else {
-                InfoType.LogError(shortName, "Incorrect format for " + key + ". Should be \"" + key + " <float value>\"");
+                InfoTypeFlans.LogError(shortName, "Incorrect format for " + key + ". Should be \"" + key + " <float value>\"");
             }
         }
 
@@ -198,10 +198,10 @@ public class InfoType {
                 try {
                     currentValue = Double.parseDouble(split[1]);
                 } catch (Exception e) {
-                    InfoType.LogError(shortName, "Incorrect format for " + key + ". Passed in value is not an float");
+                    InfoTypeFlans.LogError(shortName, "Incorrect format for " + key + ". Passed in value is not an float");
                 }
             } else {
-                InfoType.LogError(shortName, "Incorrect format for " + key + ". Should be \"" + key + " <float value>\"");
+                InfoTypeFlans.LogError(shortName, "Incorrect format for " + key + ". Should be \"" + key + " <float value>\"");
             }
         }
 
@@ -213,7 +213,7 @@ public class InfoType {
             if (split.length == 2) {
                 currentValue = split[1];
             } else {
-                InfoType.LogError(shortName, "Incorrect format for " + key + ". Should be \"" + key + " <singleWord>\"");
+                InfoTypeFlans.LogError(shortName, "Incorrect format for " + key + ". Should be \"" + key + " <singleWord>\"");
             }
         }
 
@@ -228,7 +228,7 @@ public class InfoType {
                     currentValue = currentValue + " " + split[i + 2];
                 }
             } else {
-                InfoType.LogError(shortName, "Incorrect format for " + key + ". Should be \"" + key + " <long string>\"");
+                InfoTypeFlans.LogError(shortName, "Incorrect format for " + key + ". Should be \"" + key + " <long string>\"");
             }
         }
 
@@ -241,10 +241,10 @@ public class InfoType {
                 try {
                     currentValue = Boolean.parseBoolean(split[1]);
                 } catch (Exception e) {
-                    InfoType.LogError(shortName, "Incorrect format for " + key + ". Passed in value is not an boolean");
+                    InfoTypeFlans.LogError(shortName, "Incorrect format for " + key + ". Passed in value is not an boolean");
                 }
             } else {
-                InfoType.LogError(shortName, "Incorrect format for " + key + ". Should be \"" + key + " <true/false>\"");
+                InfoTypeFlans.LogError(shortName, "Incorrect format for " + key + ". Should be \"" + key + " <true/false>\"");
             }
         }
 
@@ -265,24 +265,16 @@ public class InfoType {
         return super.getClass().getSimpleName() + ": " + shortName;
     }
 
-
-    /**
-     * To be overriden by subtypes for model reloading
-     */
-    public void reloadModel() {
-
-    }
-
     @Override
     public int hashCode() {
         return shortName.hashCode();
     }
 
-    public static InfoType getType(String s) {
+    public static InfoTypeFlans getType(String s) {
         return infoTypes.get(s.hashCode());
     }
 
-    public static InfoType getType(int hash) {
+    public static InfoTypeFlans getType(int hash) {
         return infoTypes.get(hash);
     }
 }

@@ -3,7 +3,7 @@ package org.rainyville.modulusconverter.types.modulus;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class GunType extends BaseType {
+public class GunTypeModulus extends BaseType {
     /**
      * Weapon Classification for later use with default animations etc
      */
@@ -140,7 +140,7 @@ public class GunType extends BaseType {
      */
     public String[] acceptedAmmo;
     /**
-     * If true &amp;&amp; != null, ammo model will be set by ammo type used. Used built-in ammo model by default
+     * If true &amp;&amp; != null, ammo model will be set by ammo type used. Used built-in ammo model by default.
      */
     public boolean dynamicAmmo = false;
 

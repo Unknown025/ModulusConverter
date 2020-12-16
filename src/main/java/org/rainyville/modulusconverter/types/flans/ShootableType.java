@@ -2,7 +2,7 @@ package org.rainyville.modulusconverter.types.flans;
 
 import java.util.HashMap;
 
-public abstract class ShootableType extends InfoType {
+public abstract class ShootableType extends InfoTypeFlans {
     //Aesthetics
     /**
      * Whether trail particles are given off

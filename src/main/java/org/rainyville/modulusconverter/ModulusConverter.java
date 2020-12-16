@@ -6,15 +6,14 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import org.fusesource.jansi.AnsiConsole;
 import org.rainyville.modulusconverter.types.flans.*;
-import org.rainyville.modulusconverter.types.modulus.BaseType;
-import org.rainyville.modulusconverter.types.modulus.SkinType;
-import org.rainyville.modulusconverter.types.modulus.WeaponFireMode;
+import org.rainyville.modulusconverter.types.modulus.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.fusesource.jansi.Ansi.ansi;
@@ -120,7 +119,7 @@ public class ModulusConverter {
 
     private static void translateConfigs(File projectPath, String packageName) {
         File configPath = new File(projectPath, "run/Flan/" + packageName);
-        File targetPath = new File(projectPath, "run/Modulus/" + packageName);
+        File targetPath = new File(projectPath, "run/Modular Warfare/" + packageName);
         if (!configPath.exists() || !configPath.isDirectory()) return;
 
         for (EnumType typeToCheckFor : EnumType.values()) {
@@ -151,16 +150,30 @@ public class ModulusConverter {
         }
 
         for (EnumType type : EnumType.values()) {
-            Class<? extends InfoType> typeClass = type.getTypeClass();
+            Class<? extends InfoTypeFlans> typeClass = type.getTypeClass();
             for (TypeFile typeFile : TypeFile.files.get(type)) {
                 try {
                     BaseType modulusType = null;
 
-                    InfoType infoType = (typeClass.getConstructor(TypeFile.class).newInstance(typeFile));
-                    infoType.read(typeFile);
+                    InfoTypeFlans infoTypeFlans = (typeClass.getConstructor(TypeFile.class).newInstance(typeFile));
+                    infoTypeFlans.read(typeFile);
                     switch (type) {
                         case bullet:
-//                            new ItemBullet((BulletType) infoType).setTranslationKey(infoType.shortName);
+                            BulletTypeFlans flansType = (BulletTypeFlans) infoTypeFlans;
+
+                            AmmoTypeModulus bulletTypeModulus = new AmmoTypeModulus();
+                            bulletTypeModulus.displayName = flansType.name;
+                            bulletTypeModulus.internalName = flansType.shortName;
+                            bulletTypeModulus.iconName = flansType.iconPath;
+                            bulletTypeModulus.bulletDamage = flansType.damageVsLiving;
+                            bulletTypeModulus.bulletSpread = flansType.bulletSpread;
+
+                            bulletTypeModulus.modelName = flansType.modelString;
+                            bulletTypeModulus.modelSkins = new SkinType[1];
+                            bulletTypeModulus.modelSkins[0] = new SkinType();
+                            bulletTypeModulus.modelSkins[0].skinAsset = flansType.texture;
+
+                            modulusType = bulletTypeModulus;
                             break;
                         case attachment:
                         case vehicle:
@@ -177,36 +190,44 @@ public class ModulusConverter {
                         case itemHolder:
                         case rewardBox:
                         case loadout:
-                            System.err.println("Unsupported type: " + infoType.shortName);
-                            break;
+                            System.err.println("Unsupported type: " + infoTypeFlans.shortName);
+                            continue;
                         case gun:
-                            GunType flansType = (GunType) infoType;
+                            GunTypeFlans gunTypeFlans = (GunTypeFlans) infoTypeFlans;
 
-                            org.rainyville.modulusconverter.types.modulus.GunType gunTypeModulus = new org.rainyville.modulusconverter.types.modulus.GunType();
-                            gunTypeModulus.displayName = flansType.name;
-                            gunTypeModulus.internalName = flansType.shortName;
-                            gunTypeModulus.iconName = flansType.iconPath;
-                            gunTypeModulus.gunDamage = flansType.damage;
-                            gunTypeModulus.roundsPerMin = flansType.numBurstRounds; //Does Flans not have RPM?
-                            gunTypeModulus.reloadTime = flansType.reloadTime;
-                            gunTypeModulus.bulletSpread = flansType.bulletSpread;
-                            gunTypeModulus.sneakMod = 0.35F;
-                            gunTypeModulus.crouchRecoilModifier = 0.5F;
-                            gunTypeModulus.acceptedAmmo = new String[flansType.ammo.size()];
-                            for (int i = 0; i < flansType.ammo.size(); i++) {
-                                gunTypeModulus.acceptedAmmo[i] = flansType.ammo.get(i).shortName;
+                            GunTypeModulus gunTypeModulus = new GunTypeModulus();
+                            gunTypeModulus.displayName = gunTypeFlans.name;
+                            gunTypeModulus.internalName = gunTypeFlans.shortName;
+                            gunTypeModulus.iconName = gunTypeFlans.iconPath;
+                            gunTypeModulus.gunDamage = gunTypeFlans.damage;
+                            gunTypeModulus.roundsPerMin = gunTypeFlans.numBurstRounds; //Does Flans not have RPM?
+                            gunTypeModulus.reloadTime = gunTypeFlans.reloadTime;
+                            gunTypeModulus.bulletSpread = gunTypeFlans.bulletSpread;
+                            gunTypeModulus.acceptedAmmo = new String[gunTypeFlans.ammo.size()];
+                            for (int i = 0; i < gunTypeFlans.ammo.size(); i++) {
+                                gunTypeModulus.acceptedAmmo[i] = gunTypeFlans.ammo.get(i).shortName;
                             }
                             gunTypeModulus.fireModes = new WeaponFireMode[1];
-                            gunTypeModulus.fireModes[0] = getFireModeFromFlans(flansType.mode);
-                            gunTypeModulus.recoilPitch = flansType.recoil;
-                            gunTypeModulus.recoilYaw = flansType.recoil;
-                            gunTypeModulus.modelName = flansType.modelString;
-                            gunTypeModulus.modelSkins = new SkinType[flansType.paintjobs.size()];
-                            for (int i = 0; i < flansType.paintjobs.size(); i++) {
-                                Paintjob paintjob = flansType.getPaintjob(i);
+                            gunTypeModulus.fireModes[0] = getFireModeFromFlans(gunTypeFlans.mode);
+                            gunTypeModulus.recoilPitch = gunTypeFlans.recoil;
+                            gunTypeModulus.recoilYaw = gunTypeFlans.recoil;
+                            String[] name = gunTypeFlans.modelString.split("\\.");
+
+                            name[name.length - 1] = "Model" + name[name.length - 1]; //Flan's automatically pre-appends "Model" to all names, Modulus doesn't.
+                            gunTypeModulus.modelName = String.join(".", name);
+
+                            gunTypeModulus.modelSkins = new SkinType[gunTypeFlans.paintjobs.size()];
+                            for (int i = 0; i < gunTypeFlans.paintjobs.size(); i++) {
+                                Paintjob paintjob = gunTypeFlans.getPaintjob(i);
                                 gunTypeModulus.modelSkins[i] = new SkinType();
                                 gunTypeModulus.modelSkins[i].skinAsset = paintjob.textureName;
                             }
+                            gunTypeModulus.weaponSoundMap = new HashMap<>();
+                            ArrayList<SoundEntry> fireSounds = new ArrayList<>();
+                            SoundEntry soundEntry = new SoundEntry();
+                            soundEntry.soundEvent = WeaponSoundType.Fire;
+                            fireSounds.add(soundEntry);
+                            gunTypeModulus.weaponSoundMap.put(WeaponSoundType.Fire, fireSounds);
 
                             modulusType = gunTypeModulus;
                             break;
@@ -217,7 +238,7 @@ public class ModulusConverter {
 //                            armourItems.add((ItemTeamArmour) new ItemTeamArmour((ArmourType) infoType).setTranslationKey(infoType.shortName));
                             break;
                         default:
-                            System.err.println("Unrecognised type for " + infoType.shortName);
+                            System.err.println("Unrecognised type for " + infoTypeFlans.shortName);
                             break;
                     }
 
@@ -241,7 +262,7 @@ public class ModulusConverter {
                     e.printStackTrace();
                 }
             }
-            System.out.println("Loaded " + type.name() + ".");
+            System.out.println(ansi().fgBrightGreen().a("Loaded " + type.name() + "."));
         }
     }
 

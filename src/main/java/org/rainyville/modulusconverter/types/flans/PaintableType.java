@@ -3,7 +3,7 @@ package org.rainyville.modulusconverter.types.flans;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public abstract class PaintableType extends InfoType {
+public abstract class PaintableType extends InfoTypeFlans {
     //Paintjobs
     /**
      * The list of all available paintjobs for this gun

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class GunType extends PaintableType implements IScope {
+public class GunTypeFlans extends PaintableType implements IScope {
     //Gun Behaviour Variables
     /**
      * The list of bullet types that can be used in this gun
@@ -225,11 +225,11 @@ public class GunType extends PaintableType implements IScope {
     /**
      * The static hashmap of all guns by shortName
      */
-    public static HashMap<Integer, GunType> guns = new HashMap<>();
+    public static HashMap<Integer, GunTypeFlans> guns = new HashMap<>();
     /**
      * The static list of all guns
      */
-    public static ArrayList<GunType> gunList = new ArrayList<>();
+    public static ArrayList<GunTypeFlans> gunList = new ArrayList<>();
 
     //Modifiers
     /**
@@ -242,7 +242,7 @@ public class GunType extends PaintableType implements IScope {
     public float knockbackModifier = 0F;
 
 
-    public GunType(TypeFile file) {
+    public GunTypeFlans(TypeFile file) {
         super(file);
     }
 

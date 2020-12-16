@@ -20,15 +20,15 @@ public enum EnumType {
         return null;
     }
 
-    public Class<? extends InfoType> getTypeClass()
+    public Class<? extends InfoTypeFlans> getTypeClass()
     {
         switch(this)
         {
-//            case bullet: return BulletType.class;
-            case gun: return GunType.class;
+            case bullet: return BulletTypeFlans.class;
+            case gun: return GunTypeFlans.class;
 //            case grenade: return GrenadeType.class;
 //            case armour: return ArmourType.class;
-            default: return InfoType.class;
+            default: return InfoTypeFlans.class;
         }
     }
 }
