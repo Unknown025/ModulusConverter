@@ -23,7 +23,7 @@ For each type, the table will list each config and potentially its purpose and d
 | randomRecoilYaw | Float | 0.5F | Modifier for setting the maximum yaw divergence when randomizing recoil (Recoil 2 + rndRecoil 0.5 == 1.5-2.5 Recoil range) |
 | crouchRecoilModifier | Float | 0.8F | Modifier for reducing recoil if crouched. |
 | fireMods | WeaponFireMode[] | WeaponFireMode.SEMI | Available fire modes for this weapon. |
-| acceptedAttachments | Map<AttachmentEnum, ArrayList<String>> | - | Not currently implemented. |
+| acceptedAttachments | Map<AttachmentEnum, ArrayList\<String\>> | - | Not currently implemented. |
 | reloadTime | Integer | 40 | The time (in ticks) it takes to reload this weapon. |
 | chargeTime | Integer | 40 | The time (in ticks) it takes to charge this weapon. |
 | offhandReloadTime | Integer | - | The time (in ticks) it takes to offhand reload this weapon. |
@@ -40,4 +40,4 @@ For each type, the table will list each config and potentially its purpose and d
 | allowSpringFiring | Boolean | false | Whether this weapon permits firing while sprinting. |
 | allowDefaultSounds | Boolean | true | Whether default Modulus sounds should also be used for firing. |
 | emptyPitch | Float | 0.05F | - |
-| weaponSoundMap | Map<WeaponSoundType, ArrayList<SoundEntry>> | - | Map of weapon sounds. | 
+| weaponSoundMap | Map<WeaponSoundType, ArrayList\<SoundEntry\>> | - | Map of weapon sounds. | 
