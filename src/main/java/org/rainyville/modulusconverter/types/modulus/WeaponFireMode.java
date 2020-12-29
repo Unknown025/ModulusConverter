@@ -19,15 +19,6 @@ public enum WeaponFireMode {
      */
     @SerializedName("burst") BURST;
 
-    public static WeaponFireMode fromString(String modeName) {
-        for (WeaponFireMode fireMode : values()) {
-            if (fireMode.name().equalsIgnoreCase(modeName)) {
-                return fireMode;
-            }
-        }
-        return null;
-    }
-
     @Override
     public String toString() {
         String name = name().toLowerCase();
