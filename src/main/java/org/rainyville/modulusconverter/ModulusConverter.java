@@ -20,9 +20,15 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 public class ModulusConverter {
     private static final String modelsPackage = "src/main/java/com/flansmod/client/model/${package}";
-    private static final String targetPackage = "src/main/java/org/rainyville/modulus/client/model/${package}";
+    private static String targetPackage = "src/main/java/org/rainyville/modulus/client/model/${package}";
     private static final List<String> ignoreClasses = Arrays.asList("ModelVehicle", "ModelMG", "ModelPlane");
 
+    /**
+     * Program start point.
+     *
+     * @param args Commandline arguments.
+     * @throws Exception Thrown if an error occurred.
+     */
     @SuppressWarnings("unchecked")
     public static void main(String[] args) throws Exception {
         AnsiConsole.systemInstall();
@@ -36,6 +42,8 @@ public class ModulusConverter {
                         .withRequiredArg().ofType(String.class).withValuesSeparatedBy(',');
                 accepts("ignoreCompatibility", "Does not check for compatibility.")
                         .withRequiredArg().ofType(Boolean.class);
+                accepts("targetPackage", "The target package name for converting models.")
+                        .withRequiredArg().ofType(String.class);
                 acceptsAll(Arrays.asList("help", "h", "?"), "Shows all available options.").forHelp();
             }
         };
@@ -49,6 +57,7 @@ public class ModulusConverter {
         File projectPath = (File) options.valueOf("path");
         List<String> packageNames = (List<String>) options.valuesOf("package");
         List<String> contentPackNames = options.has("pack") ? (List<String>) options.valuesOf("pack") : new ArrayList<>();
+        if (options.has("targetPackage")) targetPackage = (String) options.valueOf("targetPackage");
         List<ModelConvert> modelConvertList = new ArrayList<>();
 
         boolean ignoreCompatibility = options.has("ignoreCompatibility") && (boolean) options.valueOf("ignoreCompatibility");
@@ -106,6 +115,14 @@ public class ModulusConverter {
         System.out.println(ansi().fgBrightBlue().a("Loaded ").fgBrightGreen().a(TypeFile.files.size()).fgBrightBlue().a(" configuration files.").reset());
     }
 
+    /**
+     * Recursively looks for model locations.
+     *
+     * @param list   Current list of located models.
+     * @param source Location to search.
+     * @param target Location to copy to.
+     * @return Returns a list of located models.
+     */
     private static List<ModelConvert> findModels(List<ModelConvert> list, File source, File target) {
         for (File model : source.listFiles()) {
             if (model.isDirectory()) {
@@ -117,6 +134,12 @@ public class ModulusConverter {
         return list;
     }
 
+    /**
+     * Translates configuration files from Flansmod to Modulus.
+     *
+     * @param projectPath Path of the Flan's project.
+     * @param packageName Package name.
+     */
     private static void translateConfigs(File projectPath, String packageName) {
         File configPath = new File(projectPath, "run/Flan/" + packageName);
         File targetPath = new File(projectPath, "run/Modular Warfare/" + packageName);
@@ -238,7 +261,7 @@ public class ModulusConverter {
 //                            armourItems.add((ItemTeamArmour) new ItemTeamArmour((ArmourType) infoType).setTranslationKey(infoType.shortName));
                             break;
                         default:
-                            System.err.println("Unrecognised type for " + infoTypeFlans.shortName);
+                            System.err.println(ansi().fgRed().a("Unrecognized type for " + infoTypeFlans.shortName).reset());
                             break;
                     }
 
@@ -266,6 +289,12 @@ public class ModulusConverter {
         }
     }
 
+    /**
+     * Gets the equivalent Modulus fire mode from Flans.
+     *
+     * @param mode Flans fire mode.
+     * @return Returns the Modulus equivalent.
+     */
     private static WeaponFireMode getFireModeFromFlans(EnumFireMode mode) {
         switch (mode) {
             case FULLAUTO:
