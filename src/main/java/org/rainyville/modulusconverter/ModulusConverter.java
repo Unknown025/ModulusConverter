@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
+import org.apache.commons.io.FileUtils;
 import org.fusesource.jansi.AnsiConsole;
 import org.rainyville.modulusconverter.types.flans.*;
 import org.rainyville.modulusconverter.types.modulus.*;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
+@SuppressWarnings({"ResultOfMethodCallIgnored", "ConstantConditions"})
 public class ModulusConverter {
     private static final String modelsPackage = "src/main/java/com/flansmod/client/model/${package}";
     private static String targetPackage = "src/main/java/org/rainyville/modulus/client/model/${package}";
@@ -135,14 +137,14 @@ public class ModulusConverter {
     }
 
     /**
-     * Translates configuration files from Flansmod to Modulus.
+     * Translates configuration files from Flansmod to Expansive Weaponry.
      *
      * @param projectPath Path of the Flan's project.
      * @param packageName Package name.
      */
     private static void translateConfigs(File projectPath, String packageName) {
         File configPath = new File(projectPath, "run/Flan/" + packageName);
-        File targetPath = new File(projectPath, "run/Modular Warfare/" + packageName);
+        File targetPath = new File(projectPath, "run/Expansive Weaponry/" + packageName);
         if (!configPath.exists() || !configPath.isDirectory()) return;
 
         for (EnumType typeToCheckFor : EnumType.values()) {
@@ -286,6 +288,17 @@ public class ModulusConverter {
                 }
             }
             System.out.println(ansi().fgBrightGreen().a("Loaded " + type.name() + "."));
+
+            File resourcesPath = new File(configPath, "assets/flansmod");
+            File targetResourcesPath = new File(targetPath, "assets/modulus");
+
+            try {
+                FileUtils.copyDirectory(resourcesPath, targetResourcesPath);
+                System.err.println(ansi().fgBrightGreen().a("Copied all assets from Flansmod to Modulus.").reset());
+            } catch (IOException e) {
+                System.err.println(ansi().fgRed().a("Could not copy assets from Flansmod to Modulus.").reset());
+                e.printStackTrace(System.err);
+            }
         }
     }
 
