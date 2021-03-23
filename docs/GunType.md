@@ -5,7 +5,7 @@ For each type, the table will list each config and potentially its purpose and d
 | Keyword | Type | Default | Purpose |
 |---|---|---|---|
 | weaponType | [WeaponType](https://github.com/Unknown025/ModulusConverter/blob/master/docs/WeaponType.md) | - | Used for default weapon animations. |
-| scopeType | WeaponScopeType | N/A | Not currently implemented. |
+| scopeType | [WeaponScopeType](https://github.com/Unknown025/ModulusConverter/blob/master/docs/WeaponScopeType.md) | N/A | Not currently implemented. |
 | gunDamage | Float | 0 | Damage inflicted per bullet. Multiplied by the bullet damage value. |
 | gunDamageHeadshotBonus | Float | 2 | Damage inflicted is multiplied by this value. |
 | weaponMaxRange | Integer | 100 | Maximum weapon block range. |
@@ -23,7 +23,7 @@ For each type, the table will list each config and potentially its purpose and d
 | randomRecoilYaw | Float | 0.5F | Modifier for setting the maximum yaw divergence when randomizing recoil (Recoil 2 + rndRecoil 0.5 == 1.5-2.5 Recoil range) |
 | crouchRecoilModifier | Float | 0.8F | Modifier for reducing recoil if crouched. |
 | fireModes | [WeaponFireMode[]](https://github.com/Unknown025/ModulusConverter/blob/master/docs/WeaponFireMode.md) | WeaponFireMode.SEMI | Available fire modes for this weapon. |
-| acceptedAttachments | Map<AttachmentEnum, ArrayList\<String\>> | - | Not currently implemented. |
+| acceptedAttachments | Map<[AttachmentEnum](https://github.com/Unknown025/ModulusConverter/blob/master/docs/AttachmentEnum.md), ArrayList\<String\>> | - | Not currently implemented. |
 | reloadTime | Integer | 40 | The time (in ticks) it takes to reload this weapon. |
 | chargeTime | Integer | 40 | The time (in ticks) it takes to charge this weapon. |
 | offhandReloadTime | Integer | - | The time (in ticks) it takes to offhand reload this weapon. |
@@ -40,4 +40,4 @@ For each type, the table will list each config and potentially its purpose and d
 | allowSpringFiring | Boolean | false | Whether this weapon permits firing while sprinting. |
 | allowDefaultSounds | Boolean | true | Whether default Expansive Weaponry sounds should also be used for firing. |
 | emptyPitch | Float | 0.05F | - |
-| weaponSoundMap | Map<WeaponSoundType, ArrayList\<SoundEntry\>> | - | Map of weapon sounds. | 
+| weaponSoundMap | Map<[WeaponSoundType](https://github.com/Unknown025/ModulusConverter/blob/master/docs/WeaponSoundType.md), ArrayList<[SoundEntry](https://github.com/Unknown025/ModulusConverter/blob/master/docs/SoundEntry.md )>> | - | Map of weapon sounds. | 

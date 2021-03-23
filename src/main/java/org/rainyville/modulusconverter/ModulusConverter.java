@@ -108,7 +108,7 @@ public class ModulusConverter {
             }
         }
 
-        System.out.println(ansi().fgBrightGreen().a("Converted models to be Modulus compatible.").reset());
+        System.out.println(ansi().fgBrightGreen().a("Converted models to be ExW compatible.").reset());
 
         for (String packName : contentPackNames) {
             translateConfigs(projectPath, packName);
@@ -225,7 +225,7 @@ public class ModulusConverter {
                             gunTypeModulus.internalName = gunTypeFlans.shortName;
                             gunTypeModulus.iconName = gunTypeFlans.iconPath;
                             gunTypeModulus.gunDamage = gunTypeFlans.damage;
-                            gunTypeModulus.roundsPerMin = gunTypeFlans.numBurstRounds; //Does Flans not have RPM?
+                            gunTypeModulus.roundsPerMin = 500; //Does Flans not have RPM?
                             gunTypeModulus.reloadTime = gunTypeFlans.reloadTime;
                             gunTypeModulus.bulletSpread = gunTypeFlans.bulletSpread;
                             gunTypeModulus.acceptedAmmo = new String[gunTypeFlans.ammo.size()];
@@ -290,13 +290,13 @@ public class ModulusConverter {
             System.out.println(ansi().fgBrightGreen().a("Loaded " + type.name() + "."));
 
             File resourcesPath = new File(configPath, "assets/flansmod");
-            File targetResourcesPath = new File(targetPath, "assets/modulus");
+            File targetResourcesPath = new File(targetPath, "assets/exw");
 
             try {
                 FileUtils.copyDirectory(resourcesPath, targetResourcesPath);
-                System.err.println(ansi().fgBrightGreen().a("Copied all assets from Flansmod to Modulus.").reset());
+                System.err.println(ansi().fgBrightGreen().a("Copied all assets from Flansmod to ExW.").reset());
             } catch (IOException e) {
-                System.err.println(ansi().fgRed().a("Could not copy assets from Flansmod to Modulus.").reset());
+                System.err.println(ansi().fgRed().a("Could not copy assets from Flansmod to ExW.").reset());
                 e.printStackTrace(System.err);
             }
         }

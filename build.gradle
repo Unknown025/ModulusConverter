@@ -10,6 +10,8 @@ targetCompatibility = 1.8
 
 mainClassName = 'org.rainyville.modulusconverter.ModulusConverter'
 
+version='1.0.0'
+
 run {
     args '--path', 'C:\\Users\\Account\\IdeaProjects\\FlansMod', "--package", "ww2", "-pack", "WW2 Pack"
 }
