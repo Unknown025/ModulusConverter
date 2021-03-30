@@ -37,7 +37,7 @@ For each type, the table will list each config and potentially its purpose and d
 | dynamicAmmo | Boolean | false | If true &amp;&amp; != null, ammo model will be set by ammo type used. Used built-in ammo model by default. |
 | internalAmmoStorage | Integer | - | - |
 | acceptedBullets | String[] | - | Accepted bullets for this weapon. |
-| allowSpringFiring | Boolean | false | Whether this weapon permits firing while sprinting. |
+| allowSprintFiring | Boolean | false | Whether this weapon permits firing while sprinting. |
 | allowDefaultSounds | Boolean | true | Whether default Expansive Weaponry sounds should also be used for firing. |
 | emptyPitch | Float | 0.05F | - |
 | weaponSoundMap | Map<[WeaponSoundType](https://github.com/Unknown025/ModulusConverter/blob/master/docs/WeaponSoundType.md), ArrayList<[SoundEntry](https://github.com/Unknown025/ModulusConverter/blob/master/docs/SoundEntry.md )>> | - | Map of weapon sounds. | 
