@@ -2,6 +2,7 @@
 
 ### Table of Contents
 1. [BaseType](BaseType.md)
-2. [GunType](GunType.md)
-3. [CraftingType](CraftingType.md)
-4. [exwpack.info](exwpackinfo.md)
+2. [AmmoType](AmmoType.md)
+3. [GunType](GunType.md)
+4. [CraftingType](CraftingType.md)
+5. [exwpack.info](exwpackinfo.md)

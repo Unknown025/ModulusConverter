@@ -5,25 +5,26 @@ For each type, the table will list each config and potentially its purpose and d
 | Keyword | Type | Default | Purpose |
 |---|---|---|---|
 | weaponType | [WeaponType](https://github.com/Unknown025/ModulusConverter/blob/master/docs/WeaponType.md) | - | Used for default weapon animations. |
-| scopeType | [WeaponScopeType](https://github.com/Unknown025/ModulusConverter/blob/master/docs/WeaponScopeType.md) | N/A | Not currently implemented. |
-| gunDamage | Float | 0 | Damage inflicted per bullet. Multiplied by the bullet damage value. |
-| gunDamageHeadshotBonus | Float | 2 | Damage inflicted is multiplied by this value. |
+| scopeType | [WeaponScopeType](https://github.com/Unknown025/ModulusConverter/blob/master/docs/WeaponScopeType.md) | None | Scope for this weapon (or none, if undefined). |
+| gunWeight | float | 0F | Gun weight (in KG), used for weighing the player down. (Ex: M4 Carbine is about 4.5KG, 1911 is 1.5KG, etc.) |
+| gunDamage | float | 0F | Damage inflicted per bullet. Multiplied by the bullet damage value. |
+| gunDamageHeadshotBonus | float | 2F | Damage inflicted is multiplied by this value. |
 | weaponMaxRange | Integer | 100 | Maximum weapon block range. |
 | weaponEffectiveRange | Integer | 50 | Maximum weapon effectiveness block range. |
 | numBullets | Integer | 1 | The number of bullets fired by each shot. |
-| bulletSpread | Float | - | The amount bullets spread out when fired. |
-| sneakMod | Float | 0.8F | The modifier for bullet spread when sneaking. |
-| aimMod | Float | 0.2F | The modifier for bullet spread when aiming. |
+| bulletSpread | float | - | The amount bullets spread out when fired. |
+| sneakMod | float | 0.8F | The modifier for bullet spread when sneaking. |
+| aimMod | float | 0.2F | The modifier for bullet spread when aiming. |
 | roundsPerMin | Integer | 1 | The fire rate of this weapon. |
 | numBurstRounds | Integer | 3 | The number of bullets to fire per burst in burst mode. |
 | consumeGunUponUse | Boolean | false | If this weapon should be consumed upon use. |
-| recoilPitch | Float | 10.0F | Base value for upwards view recoil. |
-| recoilYaw | Float | 1.0F | Base value for sideways view recoil. |
-| randomRecoilPitch | Float | 0.5F | Modifier for setting the maximum pitch divergence when randomizing recoil (Recoil 2 + rndRecoil 0.5 == 1.5-2.5 Recoil range) |
-| randomRecoilYaw | Float | 0.5F | Modifier for setting the maximum yaw divergence when randomizing recoil (Recoil 2 + rndRecoil 0.5 == 1.5-2.5 Recoil range) |
-| crouchRecoilModifier | Float | 0.8F | Modifier for reducing recoil if crouched. |
-| fireModes | [WeaponFireMode[]](https://github.com/Unknown025/ModulusConverter/blob/master/docs/WeaponFireMode.md) | WeaponFireMode.SEMI | Available fire modes for this weapon. |
-| acceptedAttachments | Map<[AttachmentEnum](https://github.com/Unknown025/ModulusConverter/blob/master/docs/AttachmentEnum.md), ArrayList\<String\>> | - | Not currently implemented. |
+| recoilPitch | float | 10.0F | Base value for upwards view recoil. |
+| recoilYaw | float | 1.0F | Base value for sideways view recoil. |
+| randomRecoilPitch | float | 0.5F | Modifier for setting the maximum pitch divergence when randomizing recoil (Recoil 2 + rndRecoil 0.5 == 1.5-2.5 Recoil range) |
+| randomRecoilYaw | float | 0.5F | Modifier for setting the maximum yaw divergence when randomizing recoil (Recoil 2 + rndRecoil 0.5 == 1.5-2.5 Recoil range) |
+| crouchRecoilModifier | float | 0.8F | Modifier for reducing recoil if crouched. |
+| fireModes | [WeaponFireMode](https://github.com/Unknown025/ModulusConverter/blob/master/docs/WeaponFireMode.md )[] | WeaponFireMode.SEMI | Available fire modes for this weapon. |
+| acceptedAttachments | Map<[AttachmentEnum](https://github.com/Unknown025/ModulusConverter/blob/master/docs/AttachmentEnum.md), ArrayList\<String\>> | - | Accepted attachments for this weapon. |
 | reloadTime | Integer | 40 | The time (in ticks) it takes to reload this weapon. |
 | ~~chargeTime~~ | Integer | 40 | The time (in ticks) it takes to charge this weapon.<br/>**Deprecated:** This field is a duplicate of `reloadTime`, and will be removed. |
 | offhandReloadTime | Integer | - | The time (in ticks) it takes to offhand reload this weapon. |
@@ -37,7 +38,7 @@ For each type, the table will list each config and potentially its purpose and d
 | dynamicAmmo | Boolean | false | If true &amp;&amp; != null, ammo model will be set by ammo type used. Used built-in ammo model by default. |
 | internalAmmoStorage | Integer | - | - |
 | acceptedBullets | String[] | - | Accepted bullets for this weapon. |
-| allowSpringFiring | Boolean | false | Whether this weapon permits firing while sprinting. |
+| allowSprintFiring | Boolean | false | Whether this weapon permits firing while sprinting. |
 | allowDefaultSounds | Boolean | true | Whether default Expansive Weaponry sounds should also be used for firing. |
-| emptyPitch | Float | 0.05F | - |
+| emptyPitch | float | 0.05F | - |
 | weaponSoundMap | Map<[WeaponSoundType](https://github.com/Unknown025/ModulusConverter/blob/master/docs/WeaponSoundType.md), ArrayList<[SoundEntry](https://github.com/Unknown025/ModulusConverter/blob/master/docs/SoundEntry.md )>> | - | Map of weapon sounds. | 
