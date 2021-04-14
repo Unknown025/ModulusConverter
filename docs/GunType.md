@@ -7,6 +7,7 @@ For each type, the table will list each config and potentially its purpose and d
 | weaponType | [WeaponType](https://github.com/Unknown025/ModulusConverter/blob/master/docs/WeaponType.md) | - | Used for default weapon animations. |
 | scopeType | [WeaponScopeType](https://github.com/Unknown025/ModulusConverter/blob/master/docs/WeaponScopeType.md) | None | Scope for this weapon (or none, if undefined). |
 | gunWeight | float | 0F | Gun weight (in KG), used for weighing the player down. (Ex: M4 Carbine is about 4.5KG, 1911 is 1.5KG, etc.) |
+| dungeonChance | int | 0 | Change for this item to be dropped or spawned as loot. (Disabled by default.) |
 | gunDamage | float | 0F | Damage inflicted per bullet. Multiplied by the bullet damage value. |
 | gunDamageHeadshotBonus | float | 2F | Damage inflicted is multiplied by this value. |
 | weaponMaxRange | Integer | 100 | Maximum weapon block range. |

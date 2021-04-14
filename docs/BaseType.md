@@ -5,7 +5,7 @@ For each type, the table will list each config and potentially its purpose and d
 | Keyword | Type | Default | Purpose |
 |---|---|---|---|
 | modelName | String | - | Name of the model for this item. |
-| maxStackSize | Integer | - | The maximum stack size for this item. |
+| maxStackSize | Integer | - | The maximum stack size for this item. (If not specified, a default value will be used depending on the type. | |
 | modelSkins | [SkinType](https://github.com/Unknown025/ModulusConverter/blob/master/docs/SkinType.md )[] | - | The skins available for this item. |
 | internalName | String | - | The unlocalized name for this item. |
 | displayName | String | - | The display name for this item. |
