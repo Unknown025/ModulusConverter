@@ -27,7 +27,7 @@ For each type, the table will list each config and potentially its purpose and d
 | fireModes | [WeaponFireMode](https://github.com/Unknown025/ModulusConverter/blob/master/docs/WeaponFireMode.md )[] | WeaponFireMode.SEMI | Available fire modes for this weapon. |
 | acceptedAttachments | Map<[AttachmentEnum](https://github.com/Unknown025/ModulusConverter/blob/master/docs/AttachmentEnum.md), ArrayList\<String\>> | - | Accepted attachments for this weapon. |
 | reloadTime | Integer | 40 | The time (in ticks) it takes to reload this weapon. |
-| chargeTime | Integer | 40 | The time (in ticks) it takes to charge this weapon. |
+| ~~chargeTime~~ | Integer | 40 | The time (in ticks) it takes to charge this weapon.<br/>**Deprecated:** This field is a duplicate of `reloadTime`, and will be removed. |
 | offhandReloadTime | Integer | - | The time (in ticks) it takes to offhand reload this weapon. |
 | ammoNumBullets | Boolean | false | If the number of bullets should be determined by the loaded ammo. |
 | ammoBulletSpeed | Boolean | false | If the bullet speed should be determined by the loaded ammo. |

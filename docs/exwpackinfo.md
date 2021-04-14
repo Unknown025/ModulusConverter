@@ -4,9 +4,9 @@
 
 | Keyword | Type | Default | Required | Explanation |
 |---|---|---|---|---|
-| packId | String | Content pack filename | :heavy_check_mark: | This pack's **unique** identifier. |
+| packId | String | Content pack filename | :heavy_check_mark: | This pack's **unique** identifier.<br/>In the future, content packs will not be loaded without this field. Please make sure it is a unique ID value. |
 | authorList | String[] | [] |  | List of authors for this pack. |
-| url | String | - |  | URL for this pack's website. |
+| url | String | "" |  | URL for this pack's website. |
 | version | String | 1.0.0 |  | Pack version. |
 | logo | String | "" |  | Logo file. |
 | name | String | "" |  | Name of this pack. |
