@@ -42,4 +42,4 @@ For each type, the table will list each config and potentially its purpose and d
 | allowSprintFiring | Boolean | false | Whether this weapon permits firing while sprinting. |
 | allowDefaultSounds | Boolean | true | Whether default Expansive Weaponry sounds should also be used for firing. |
 | emptyPitch | float | 0.05F | - |
-| weaponSoundMap | Map<[WeaponSoundType](https://github.com/Unknown025/ModulusConverter/blob/master/docs/WeaponSoundType.md), ArrayList<[SoundEntry](https://github.com/Unknown025/ModulusConverter/blob/master/docs/SoundEntry.md )>> | - | Map of weapon sounds. | 
+| weaponSoundMap | Map<[SoundType](https://github.com/Unknown025/ModulusConverter/blob/master/docs/SoundType.md), ArrayList<[SoundEntry](https://github.com/Unknown025/ModulusConverter/blob/master/docs/SoundEntry.md )>> | - | Map of weapon sounds. | 
