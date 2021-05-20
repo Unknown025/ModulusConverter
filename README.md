@@ -1,5 +1,8 @@
 # ModulusConverter
 ### Easily convert your Flan's mod content pack to Modulus/Expansive Weaponry/Modular Warfare!
+
+### NOTE: If you do not have the source files for the content pack you want to use with Expansive Weaponry, use the provided Flan's/Modulus compatibility mode in Expansive Weaponry's `mod_config.json`.
+
 ## Example Usage:
 `java -jar ModulusConverter.jar --path "%USERPROFILE%\IdeaProjects\FlansMod" --package ww2,nerf`
 
@@ -14,7 +17,7 @@ given packages under `com.flansmod.client.model`.
 
 `--ignoreCompatibility` Ignores compatibility checks.
 
-`--targetPackage` If you're converting for Modulus or Modular Warfare, use this flag to change the target package.
+`--targetPackage` Use this flag to change the target package.
 
 `--help` Help command.
 
