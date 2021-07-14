@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 sourceCompatibility = 1.8
