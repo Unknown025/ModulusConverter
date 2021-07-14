@@ -17,6 +17,5 @@ build
 gradle.properties
 # other
 eclipse
-
-run/*
-!run/Modulus
+# testing
+run

@@ -46,6 +46,8 @@ public class ModulusConverter {
                         .withRequiredArg().ofType(Boolean.class);
                 accepts("targetPackage", "The target package name for converting models.")
                         .withRequiredArg().ofType(String.class);
+                accepts("models", "Directory where your models in *.java form.")
+                        .withRequiredArg().ofType(File.class);
                 acceptsAll(Arrays.asList("help", "h", "?"), "Shows all available options.").forHelp();
             }
         };
@@ -54,15 +56,29 @@ public class ModulusConverter {
         if (options.has("help")) {
             parser.printHelpOn(System.out);
             System.exit(0);
+            return;
         }
 
+        // Load commandline arguments
         File projectPath = (File) options.valueOf("path");
         List<String> packageNames = (List<String>) options.valuesOf("package");
         List<String> contentPackNames = options.has("pack") ? (List<String>) options.valuesOf("pack") : new ArrayList<>();
-        if (options.has("targetPackage")) targetPackage = (String) options.valueOf("targetPackage");
-        List<ModelConvert> modelConvertList = new ArrayList<>();
-
         boolean ignoreCompatibility = options.has("ignoreCompatibility") && (boolean) options.valueOf("ignoreCompatibility");
+        File modelDir = options.has("models") ? (File) options.valueOf("models") : null;
+        if (options.has("targetPackage")) targetPackage = (String) options.valueOf("targetPackage");
+
+        if (modelDir != null && packageNames != null && packageNames.size() > 0) {
+            List<File> models = new ArrayList<>();
+            for (File model : modelDir.listFiles()) {
+                if (model.getName().endsWith(".java"))
+                    models.add(model);
+            }
+
+            ProjectCreator creator = new ProjectCreator(models.toArray(new File[0]), packageNames.get(0));
+            creator.configureProject(projectPath);
+        }
+
+        List<ModelConvert> modelConvertList = new ArrayList<>();
 
         for (String packageName : packageNames) {
             File packagePath = new File(projectPath, modelsPackage.replace("${package}", packageName));
@@ -115,6 +131,8 @@ public class ModulusConverter {
         }
 
         System.out.println(ansi().fgBrightBlue().a("Loaded ").fgBrightGreen().a(TypeFile.files.size()).fgBrightBlue().a(" configuration files.").reset());
+        System.out.println(ansi().fgBrightGreen().a("Conversion complete! Use ").fgBlue().a("./gradlew build")
+                .fgBrightGreen().a(" or ").fgBlue().a("gradlew.bat build").fgBrightGreen().a(" to compile your project!"));
     }
 
     /**
