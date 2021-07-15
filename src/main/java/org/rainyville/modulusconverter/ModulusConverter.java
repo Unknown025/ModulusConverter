@@ -33,7 +33,7 @@ public class ModulusConverter {
      */
     @SuppressWarnings("unchecked")
     public static void main(String[] args) throws Exception {
-        AnsiConsole.systemInstall();
+        String osName = System.getProperty("os.name");
         OptionParser parser = new OptionParser() {
             {
                 accepts("path", "Absolute file path of your Flan's mod project.")
@@ -48,10 +48,14 @@ public class ModulusConverter {
                         .withRequiredArg().ofType(String.class);
                 accepts("models", "Directory where your models in *.java form.")
                         .withRequiredArg().ofType(File.class);
+                accepts("disableColors", "Disables console colors.").withOptionalArg();
                 acceptsAll(Arrays.asList("help", "h", "?"), "Shows all available options.").forHelp();
             }
         };
         OptionSet options = parser.parse(args);
+
+        if (!options.has("disableColors"))
+            AnsiConsole.systemInstall();
 
         if (options.has("help")) {
             parser.printHelpOn(System.out);
@@ -68,6 +72,11 @@ public class ModulusConverter {
         if (options.has("targetPackage")) targetPackage = (String) options.valueOf("targetPackage");
 
         if (modelDir != null && packageNames != null && packageNames.size() > 0) {
+            if (modelDir.listFiles() == null || !modelDir.exists()) {
+                System.out.println(ansi().fgBrightRed().a("Directory " + modelDir.getCanonicalPath() + " has no files, or does not exist!"));
+                throw new IOException("Directory " + modelDir.getCanonicalPath() + " has no files, or does not exist!");
+            }
+
             List<File> models = new ArrayList<>();
             for (File model : modelDir.listFiles()) {
                 if (model.getName().endsWith(".java"))
@@ -83,7 +92,7 @@ public class ModulusConverter {
         for (String packageName : packageNames) {
             File packagePath = new File(projectPath, modelsPackage.replace("${package}", packageName));
 
-            System.out.println(ansi().fgBrightYellow().bold().a("Checking package path: " + packagePath.getAbsolutePath()).reset());
+            System.out.println(ansi().fgBrightYellow().bold().a("Checking package path: " + packagePath.getPath()).reset());
             if (!packagePath.exists() || !packagePath.isDirectory())
                 throw new RuntimeException("Given path does not exist, or is not a directory! " + packagePath.getAbsolutePath());
             modelConvertList.addAll(findModels(new ArrayList<>(), packagePath, new File(projectPath, targetPackage.replace("${package}", packageName))));
@@ -124,15 +133,20 @@ public class ModulusConverter {
             }
         }
 
-        System.out.println(ansi().fgBrightGreen().a("Converted models to be ExW compatible.").reset());
+        System.out.println(ansi().fgYellow().a("Converted models to be ExW compatible.").reset());
 
         for (String packName : contentPackNames) {
             translateConfigs(projectPath, packName);
         }
 
-        System.out.println(ansi().fgBrightBlue().a("Loaded ").fgBrightGreen().a(TypeFile.files.size()).fgBrightBlue().a(" configuration files.").reset());
-        System.out.println(ansi().fgBrightGreen().a("Conversion complete! Use ").fgBlue().a("./gradlew build")
-                .fgBrightGreen().a(" or ").fgBlue().a("gradlew.bat build").fgBrightGreen().a(" to compile your project!"));
+        System.out.println(ansi().fgYellow().a("Loaded ").fgGreen().a(TypeFile.files.size()).fgYellow().a(" configuration files.").reset());
+
+        String shellFile;
+        if (osName.startsWith("Windows"))
+            shellFile = "gradlew.bat";
+        else
+            shellFile = "./gradlew";
+        System.out.println(ansi().fgBrightGreen().a("Conversion complete! Use ").fgBlue().a(shellFile + " build").fgBrightGreen().a(" to compile your project!").reset());
     }
 
     /**
@@ -160,7 +174,7 @@ public class ModulusConverter {
      * @param projectPath Path of the Flan's project.
      * @param packageName Package name.
      */
-    private static void translateConfigs(File projectPath, String packageName) {
+    private static void translateConfigs(File projectPath, String packageName) throws IOException {
         File configPath = new File(projectPath, "run/Flan/" + packageName);
         File targetPath = new File(projectPath, "run/Expansive Weaponry/" + packageName);
         if (!configPath.exists() || !configPath.isDirectory()) return;
@@ -312,7 +326,7 @@ public class ModulusConverter {
 
             try {
                 FileUtils.copyDirectory(resourcesPath, targetResourcesPath);
-                System.err.println(ansi().fgBrightGreen().a("Copied all assets from Flansmod to ExW.").reset());
+                System.err.println(ansi().fgYellow().a("Copied all assets from Flansmod to ExW.").reset());
             } catch (IOException e) {
                 System.err.println(ansi().fgRed().a("Could not copy assets from Flansmod to ExW.").reset());
                 e.printStackTrace(System.err);
