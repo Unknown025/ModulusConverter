@@ -174,7 +174,7 @@ public class ModulusConverter {
      * @param projectPath Path of the Flan's project.
      * @param packageName Package name.
      */
-    private static void translateConfigs(File projectPath, String packageName) throws IOException {
+    private static void translateConfigs(File projectPath, String packageName) {
         File configPath = new File(projectPath, "run/Flan/" + packageName);
         File targetPath = new File(projectPath, "run/Expansive Weaponry/" + packageName);
         if (!configPath.exists() || !configPath.isDirectory()) return;

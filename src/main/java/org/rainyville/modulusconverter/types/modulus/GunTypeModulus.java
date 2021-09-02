@@ -10,6 +10,11 @@ public class GunTypeModulus extends BaseType {
     public WeaponType weaponType;
 
     public WeaponScopeType scopeType = null;
+    /**
+     * Location of the scope overlay file.
+     * This file is retrieved from "textures/overlay/%s".
+     */
+    public String scopeOverlay = null;
 
     //Munition variables
     /**
