@@ -1,5 +1,6 @@
 package org.rainyville.modulusconverter;
 
+import com.google.common.base.CaseFormat;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import joptsimple.OptionParser;
@@ -11,11 +12,9 @@ import org.rainyville.modulusconverter.types.modulus.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.*;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
@@ -39,7 +38,7 @@ public class ModulusConverter {
                 accepts("path", "Absolute file path of your Flan's mod project.")
                         .withRequiredArg().ofType(File.class).required();
                 accepts("package", "Package names of where your models are located.")
-                        .withRequiredArg().ofType(String.class).withValuesSeparatedBy(',').required();
+                        .withRequiredArg().ofType(String.class).withValuesSeparatedBy(',');
                 accepts("pack", "Content pack names of where your config files are located.")
                         .withRequiredArg().ofType(String.class).withValuesSeparatedBy(',');
                 accepts("ignoreCompatibility", "Does not check for compatibility.")
@@ -254,7 +253,7 @@ public class ModulusConverter {
 
                             GunTypeModulus gunTypeModulus = new GunTypeModulus();
                             gunTypeModulus.displayName = gunTypeFlans.name;
-                            gunTypeModulus.internalName = gunTypeFlans.shortName;
+                            gunTypeModulus.internalName = convertNamespace(gunTypeFlans.shortName);
                             gunTypeModulus.iconName = gunTypeFlans.iconPath;
                             gunTypeModulus.gunDamage = gunTypeFlans.damage;
                             gunTypeModulus.roundsPerMin = 500; //Does Flans not have RPM?
@@ -277,7 +276,7 @@ public class ModulusConverter {
                             for (int i = 0; i < gunTypeFlans.paintjobs.size(); i++) {
                                 Paintjob paintjob = gunTypeFlans.getPaintjob(i);
                                 gunTypeModulus.modelSkins[i] = new SkinType();
-                                gunTypeModulus.modelSkins[i].skinAsset = paintjob.textureName;
+                                gunTypeModulus.modelSkins[i].skinAsset = convertNamespace(paintjob.textureName);
                             }
                             gunTypeModulus.weaponSoundMap = new HashMap<>();
                             ArrayList<SoundEntry> fireSounds = new ArrayList<>();
@@ -320,17 +319,37 @@ public class ModulusConverter {
                 }
             }
             System.out.println(ansi().fgBrightGreen().a("Loaded " + type.name() + "."));
+        }
 
-            File resourcesPath = new File(configPath, "assets/flansmod");
-            File targetResourcesPath = new File(targetPath, "assets/exw");
+        Path resourcesPath = new File(configPath, "assets/flansmod").toPath();
+        Path targetResourcesPath = new File(targetPath, "assets/exw").toPath();
 
-            try {
-                FileUtils.copyDirectory(resourcesPath, targetResourcesPath);
-                System.err.println(ansi().fgYellow().a("Copied all assets from Flansmod to ExW.").reset());
-            } catch (IOException e) {
-                System.err.println(ansi().fgRed().a("Could not copy assets from Flansmod to ExW.").reset());
-                e.printStackTrace(System.err);
-            }
+        try {
+//            FileUtils.copyDirectory(resourcesPath, targetResourcesPath);
+
+
+            Files.walkFileTree(resourcesPath, new SimpleFileVisitor<Path>() {
+                @Override
+                public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                    Files.createDirectories(targetResourcesPath.resolve(resourcesPath.relativize(dir)));
+                    return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    Path rel = targetResourcesPath.resolve(resourcesPath.relativize(file));
+                    File typeFile = file.toFile();
+                    FileUtils.copyFile(file.toFile(), new File(rel.toFile().getParentFile(),
+                            !typeFile.getParent().endsWith("lang") ? convertNamespace(typeFile.getName()) : typeFile.getName()), true);
+//                    Path resolved = targetResourcesPath.resolve(Paths.get(file.toFile().getParent()) + convertNamespace(file.toFile().getName()));
+//                    Files.copy(file, resolved, StandardCopyOption.REPLACE_EXISTING);
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+            System.err.println(ansi().fgYellow().a("Copied all assets from Flansmod to ExW").reset());
+        } catch (IOException e) {
+            System.err.println(ansi().fgRed().a("Could not copy assets from Flansmod to ExW").reset());
+            e.printStackTrace(System.err);
         }
     }
 
@@ -351,5 +370,18 @@ public class ModulusConverter {
             default:
                 return WeaponFireMode.SEMI;
         }
+    }
+
+    /**
+     * Converts a namespace to be 1.8+ compatible.
+     *
+     * @param input Input, such as an item ID or file name.
+     * @return Returns a 1.8+ compliant ID.
+     */
+    private static String convertNamespace(String input) {
+        input = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, input);
+        input = input.toLowerCase(Locale.ROOT);
+        input = input.replace(" ", "_");
+        return input;
     }
 }

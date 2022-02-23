@@ -2,12 +2,11 @@ package org.rainyville.modulusconverter.types.flans;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class TypeFile {
     public EnumType type;
     public String name, contentPack;
-    private ArrayList<String> lines;
+    private final ArrayList<String> lines;
     public static HashMap<EnumType, ArrayList<TypeFile>> files;
     private int readerPosition = 0;
     private int hash = 0x12345678;
@@ -42,10 +41,6 @@ public class TypeFile {
         if (readerPosition == lines.size())
             return null;
         return lines.get(readerPosition++);
-    }
-
-    public List<String> getLines() {
-        return lines;
     }
 
     @Override
