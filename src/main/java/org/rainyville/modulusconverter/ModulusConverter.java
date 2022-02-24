@@ -23,6 +23,7 @@ public class ModulusConverter {
     private static final String modelsPackage = "src/main/java/com/flansmod/client/model/${package}";
     private static String targetPackage = "src/main/java/org/rainyville/modulus/client/model/${package}";
     private static final List<String> ignoreClasses = Arrays.asList("ModelVehicle", "ModelMG", "ModelPlane");
+    private static boolean convertNamespace = false;
 
     /**
      * Program start point.
@@ -48,6 +49,7 @@ public class ModulusConverter {
                 accepts("models", "Directory where your models in *.java form.")
                         .withRequiredArg().ofType(File.class);
                 accepts("disableColors", "Disables console colors.").withOptionalArg();
+                accepts("convertNamespace", "Converts namespaces and IDs to 1.8+.");
                 acceptsAll(Arrays.asList("help", "h", "?"), "Shows all available options.").forHelp();
             }
         };
@@ -67,6 +69,7 @@ public class ModulusConverter {
         List<String> packageNames = (List<String>) options.valuesOf("package");
         List<String> contentPackNames = options.has("pack") ? (List<String>) options.valuesOf("pack") : new ArrayList<>();
         boolean ignoreCompatibility = options.has("ignoreCompatibility") && (boolean) options.valueOf("ignoreCompatibility");
+        convertNamespace = options.has("convertNamespace");
         File modelDir = options.has("models") ? (File) options.valueOf("models") : null;
         if (options.has("targetPackage")) targetPackage = (String) options.valueOf("targetPackage");
 
@@ -379,6 +382,7 @@ public class ModulusConverter {
      * @return Returns a 1.8+ compliant ID.
      */
     private static String convertNamespace(String input) {
+        if (!convertNamespace) return input;
         input = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, input);
         input = input.toLowerCase(Locale.ROOT);
         input = input.replace(" ", "_");

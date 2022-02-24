@@ -23,6 +23,10 @@ used if copying your files to a fresh Flan's mod project.)
 `--models` Location of the directory where `.java` models are located.
 **Specifying this option will download and create a _new_ Flan's Mod project.**
 
+`--disableColors` Disables terminal colors.
+
+`--convertNamespace` Converts namespaces to underscore lowercase IDs (helpful if updating from 1.7.10).
+
 `--help` Help command.
 
 `*` = required.
